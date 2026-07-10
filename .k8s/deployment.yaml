@@ -35,3 +35,8 @@ spec:
               value: "http://+:80"
             - name: WebApiBaseAddress
               value: "http://webapi"
+            - name: BaseUrlConfiguration__WebBase
+              value: "http://20.24.181.42"
+            - name: BaseUrlConfiguration__ApiBase
+              value: "http://webapi"
+
