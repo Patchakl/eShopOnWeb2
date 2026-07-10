@@ -30,23 +30,29 @@ jobs:
           docker push ${{ env.ACR_LOGIN_SERVER }}/${{ env.TAG_NAME }}
   
   deploy-to-aks:
+    needs: build-container
     runs-on: ubuntu-latest
-    steps: 
-      - uses: actions/checkout@v7.0.0
-      - uses: azure/aks-set-context@v4
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v2
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-          resource-group: ${{ env.RESOURCE_GROUP }}
-          cluster-name: ${{ env.CLUSTER_NAME }}
-      - uses: azure/k8s-create-secret@v1
+
+      - name: Set AKS Context
+        uses: azure/aks-set-context@v4
         with:
-          container-registry-url: ${{ env.ACR_LOGIN_SERVER }}
-          container-registry-name: aistraining
-          container-registry-password: ${{ secrets.ACR_PASSWORD }}
-          secret-name: aks-secret
-      - uses: azure/k8s-deploy@v1
+          resource-group: ais-training
+          cluster-name: aks-demo
+
+      - name: Deploy to AKS
+        uses: Azure/k8s-deploy@v5
         with:
           manifests: |
-            .k8s/deployment.yaml
-            .k8s/service.yaml
-          images: ${{ env.ACR_LOGIN_SERVER }}/${{ env.TAG_NAME }}
+            ./k8s/deployment.yaml
+            ./k8s/service.yaml
+          images: |
+            aistraining.azurecr.io/eshoponweb-patcharaporn:1.0.0
+
