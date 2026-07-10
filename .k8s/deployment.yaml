@@ -1,3 +1,10 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  namespace: eshoponweb-patcharaporn
+
+  ------------
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
