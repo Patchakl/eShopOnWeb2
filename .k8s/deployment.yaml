@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  namespace: eshoponweb-patcharaporn
+  name: eshoponweb-patcharaporn
 
-  ------------
+---
 
 apiVersion: apps/v1
 kind: Deployment
@@ -32,6 +32,6 @@ spec:
               protocol: TCP
           env:
             - name: ASPNETCORE_URLS
-              value: http://+:80
+              value: "http://+:80"
             - name: WebApiBaseAddress
-              value: http://webapi
+              value: "http://webapi"
